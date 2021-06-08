@@ -21,7 +21,7 @@ int grabPhysicalDevice(VkInstance instance)
 
   for (int x = 0; x < devCount; x++)
   {
-    VkPhysicalDevice* device = devices[x];
+    VkPhysicalDevice device = devices[x];
     if (deviceGud() == 0)
     {
       physicalDevice = device;

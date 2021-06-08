@@ -5,7 +5,7 @@ VkDebugUtilsMessengerEXT debugMessenger;
 VkInstance instance;
 
 const int needLayerNumber = 1;
-const char* ValidLayers[needLayerNumber] = {
+const char* ValidLayers[1] = {
   "VK_LAYER_KHRONOS_validation"
 };
 
@@ -26,7 +26,7 @@ int VkLayerSupport()
 
     for (int x = 0; x < layerNumber; x++)
     {
-      const VkLayerProperties& layerProps = availableLayers[x];
+      const VkLayerProperties layerProps = availableLayers[x];
 
       if (strcmp(layerName, layerProps.layerName) == 0)
       {
@@ -57,8 +57,8 @@ const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
   return VK_FALSE;
 }
 
-void fillDebugMessengerInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
-  createInfo = {};
+void fillDebugMessengerInfo(VkDebugUtilsMessengerCreateInfoEXT createInfo) {
+  createInfo = {0};
   createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
   createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
   createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
@@ -68,20 +68,17 @@ void fillDebugMessengerInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
   const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
-  auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+  PFN_vkCreateDebugUtilsMessengerEXT func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 
   if (func != NULL)
   {
     return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
   }
-  else
-  {
-    return VK_ERROR_EXTENSION_NOT_PRESENT;
-  }
+  return VK_ERROR_EXTENSION_NOT_PRESENT;
 }
 
 void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
-  auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+  PFN_vkCreateDebugUtilsMessengerEXT func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
   if (func != NULL) {
         func(instance, debugMessenger, pAllocator);
     }
@@ -101,14 +98,14 @@ void setupDebugMessenger()
 
 int VkStuff()
 {
-  VkApplicationInfo appInfo{};
+  VkApplicationInfo appInfo = {0};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
   appInfo.pApplicationName = "KaoticEngine";
   appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.pEngineName = "N/A";
   appInfo.apiVersion = VK_API_VERSION_1_0;
 
-  VkInstanceCreateInfo createInfo{};
+  VkInstanceCreateInfo createInfo = {0};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
 
