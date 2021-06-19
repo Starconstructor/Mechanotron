@@ -1,5 +1,7 @@
 #include <string.h>
+#include <stdlib.h>
 #include "GPU_grabber.h"
+#include "Overmind.h"
 
 VkDebugUtilsMessengerEXT debugMessenger;
 VkInstance instance;
@@ -57,7 +59,8 @@ const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
   return VK_FALSE;
 }
 
-void fillDebugMessengerInfo(VkDebugUtilsMessengerCreateInfoEXT createInfo) {
+void fillDebugMessengerInfo(VkDebugUtilsMessengerCreateInfoEXT createInfo)
+{
   createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
   createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
   createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
@@ -112,11 +115,10 @@ int VkStuff()
   createInfo.pApplicationInfo = &appInfo;
 
   uint32_t glfwExtensionCount = 0;
-  const char** glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+  const char** exts = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
   createInfo.enabledExtensionCount = glfwExtensionCount;
-  createInfo.ppEnabledExtensionNames = glfwExtensions;
+  createInfo.ppEnabledExtensionNames = exts;
 
   int vLayers = VkLayerSupport();
   if (enableValidationLayers == 0 && !vLayers == 0) printf("Requested validation layers not found. You probably misspelled something.\n");
@@ -129,7 +131,8 @@ int VkStuff()
 
     VkDebugUtilsMessengerCreateInfoEXT validInfo;
     fillDebugMessengerInfo(validInfo);
-    createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &validInfo;
+    CreateDebugUtilsMessengerEXT(instance, &validInfo, NULL, &debugMessenger);
+    createInfo.pNext = &validInfo;
   }
   else
   {

@@ -10,10 +10,7 @@ int main()
     printf("oh noes! Shutdown initiated!\n");
     return 1;
   }
-  else
-  {
-    printf("Vulkan setup complete. Activating window.\n");
-  }
+  printf("Vulkan setup complete. Activating window.\n");
 
   glfwInit();
 
