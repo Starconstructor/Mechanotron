@@ -1,9 +1,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include "GPU_grabber.h"
-#include "Overmind.h"
 
 VkDebugUtilsMessengerEXT debugMessenger;
+VkSurfaceKHR surface;
 VkInstance instance;
 
 const int needLayerNumber = 1;
@@ -97,7 +97,7 @@ void setupDebugMessenger()
   fillDebugMessengerInfo(createInfo);
 
   if (CreateDebugUtilsMessengerEXT(instance, &createInfo, NULL, &debugMessenger) != VK_SUCCESS) {
-      printf("Nope, no debug messanger for you\n");
+      printf("Nope, no debug messanger for you.\n");
   }
 }
 
@@ -132,7 +132,7 @@ int VkStuff()
     VkDebugUtilsMessengerCreateInfoEXT validInfo;
     fillDebugMessengerInfo(validInfo);
     CreateDebugUtilsMessengerEXT(instance, &validInfo, NULL, &debugMessenger);
-    createInfo.pNext = &validInfo;
+    //createInfo.pNext = &validInfo;
   }
   else
   {
@@ -144,7 +144,13 @@ int VkStuff()
     printf("Failure to create Vulkan instance. Terminating program.\n");
     return 1;
   }
-  printf("Vulkan instance fully operational. Opening window.\n");
+  printf("Vulkan instance created. Creating logical device...\n");
+
+  if (makLogicalDevice(instance, needLayerNumber, ValidLayers, enableValidationLayers))
+  {
+    printf("Failure to create Vulkan instance. Terminating program.\n");
+    return 1;
+  }
   return 0;
 }
 
@@ -154,5 +160,7 @@ void VkDie()
   {
     DestroyDebugUtilsMessengerEXT(instance, debugMessenger, NULL);
   }
+  vkDestroySurfaceKHR(instance, surface, NULL);
+  vkDestroyDevice(device, NULL);
   vkDestroyInstance(instance, NULL);
 }

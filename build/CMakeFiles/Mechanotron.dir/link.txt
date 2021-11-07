@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/Mechanotron.dir/Mechanotron.c.o  -o Mechanotron  -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi 

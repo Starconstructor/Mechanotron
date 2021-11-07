@@ -5,6 +5,7 @@
 
 int main()
 {
+  surface = 0;
   if (VkStuff() != 0)
   {
     printf("oh noes! Shutdown initiated!\n");
@@ -19,6 +20,13 @@ int main()
 
   const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
   GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Vulkan", glfwGetPrimaryMonitor(), NULL);
+  VkResult err = glfwCreateWindowSurface(instance, window, NULL, &surface);
+
+  if (err != 0)
+  {
+    printf("Failure to create window surface. Code: %i. Terminating...\n", err);
+    return 1;
+  }
 
   while (!glfwWindowShouldClose(window))
   {

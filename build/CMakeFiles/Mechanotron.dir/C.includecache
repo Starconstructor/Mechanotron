@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/starconstructor/Code/Mechanotron/GPU_grabber.h
+
+/home/starconstructor/Code/Mechanotron/Mechanotron.c
+GLFW/glfw3.h
+-
+stdio.h
+-
+VulkanStuff.h
+/home/starconstructor/Code/Mechanotron/VulkanStuff.h
+
+/home/starconstructor/Code/Mechanotron/VulkanStuff.h
+string.h
+-
+stdlib.h
+-
+GPU_grabber.h
+/home/starconstructor/Code/Mechanotron/GPU_grabber.h
+

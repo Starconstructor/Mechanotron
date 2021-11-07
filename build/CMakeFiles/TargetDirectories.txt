@@ -1,0 +1,3 @@
+/home/starconstructor/Code/Mechanotron/build/CMakeFiles/edit_cache.dir
+/home/starconstructor/Code/Mechanotron/build/CMakeFiles/rebuild_cache.dir
+/home/starconstructor/Code/Mechanotron/build/CMakeFiles/Mechanotron.dir
